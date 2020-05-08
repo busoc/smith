@@ -14,6 +14,8 @@ using namespace std;
 namespace pd {
   int run(ini::config& cfg);
 
+  int serialize(char* buffer, dass::ProcessedDataItem* item);
+
   class client: public dass::client::ProcessedDataInterface, dass::client::ConnectionMonitor, public dass::client::ServiceStatusInterface, public Util::TimedEvent {
   private:
     usoc::client* worker;
@@ -61,7 +63,6 @@ namespace pd {
       return conn;
     }
 
-    /** Call back functions from the connection monitor */
     virtual void connected(dass::client::ClientConnection& c) {
       cout << "Connected...\n";
     }

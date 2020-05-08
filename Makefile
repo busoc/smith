@@ -46,6 +46,7 @@ needed:
 	g++ -o objects/ini.o -c include/ini/ini.cpp
 	g++ -o objects/usoc.o -c include/usoc/usoc.cpp
 	g++ $(CPPFLAGS) -o objects/pd.o -c include/dass/pd.cpp
+	g++ $(CPPFLAGS) -o objects/pt.o -c include/dass/pt.cpp
 	g++ $(CPPFLAGS) -o objects/main.o -c main.cpp
 
 smith:

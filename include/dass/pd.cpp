@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <vector>
 #include <arpa/inet.h>
 
 #include "helpers.h"
@@ -17,9 +16,6 @@
 using namespace std;
 
 namespace pd {
-
-  int serialize(char* buffer, dass::ProcessedDataItem* item);
-  void hexdump(char* buffer, int written);
 
   char tag = 0x06;
   int request = 0x00;
@@ -146,20 +142,6 @@ namespace pd {
 
   void client::receiveProcessedDataResponse(dass::client::ProcessedDataService& service, dass::ProcessedDataResponse& response) {
     // do nothing
-  }
-
-  const string alphabet = "0123456789ABCDEF";
-  void hexdump(char*buffer, int written) {
-    ostringstream str;
-    for (int i = 0; i < written; i++) {
-      int high = int(buffer[i]) >> 4;
-      str.put(alphabet[high]);
-
-      int low = int(buffer[i]) & 0x0F;
-      str.put(alphabet[low]);
-      str.put(' ');
-    }
-    cerr << str.str() << endl;
   }
 
   int serialize(char* buffer, dass::ProcessedDataItem* item) {

@@ -6,24 +6,21 @@
 using namespace std;
 
 namespace usoc {
-  class client
-  {
+  class client {
   private:
     int fd;
     int port;
     string addr;
 
     void dial();
-    bool is_connected()
-    {
+    bool is_connected() {
       return fd != -1;
     };
 
   public:
     client(string addr, int port);
     void kill();
-    void forward(const char* data);
-    void generate();
+    void forward(const char* data, int size);
   };
 }
 

@@ -129,7 +129,7 @@ namespace pd {
     memcpy(buffer+written, &fine, sizeof(fine));
     written += sizeof(fine)
 
-    memcpy(buffer, &request, sizeof(request));
+    memcpy(buffer+written, &request, sizeof(request));
     written += sizeof(request);
 
     memcpy(buffer+written, &count, sizeof(count));

@@ -22,6 +22,7 @@ namespace ini {
     const char carriage = '\r';
     const char dquote = '"';
     const char squote = '\'';
+    const char semicolon = ';';
 
     inline bool is_blank(char c) {
       return c == space || c == tab;
@@ -48,7 +49,7 @@ namespace ini {
     }
 
     inline bool is_comment(char c) {
-      return c == pound;
+      return c == pound || c == semicolon;
     }
   }
 

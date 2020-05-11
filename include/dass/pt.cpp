@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "helpers.h"
 #include "pt.h"
 #include "ini/ini.h"
@@ -10,33 +12,43 @@ namespace pt {
   char tag = 0x0B;
 
   int run(ini::config& cfg) {
+    vector<client*> clients;
     try {
-      client* ptr = new client(cfg);
+      int items = cfg.get_int("data", "items");
+      for (int i = 0; i < items; i++) {
+        ostringstream str;
+        str << "data-" << i;
+        client* ptr = new client(str.str(), cfg);
+        clients.push_back(ptr);
+      }
       dass::client::ClientConnection::StartService(0);
 
-      dass::client::PathTMService* service = ptr->get_service();
-      dass::client::PathTMClientConnection* conn = ptr->get_conn();
+      for (int i = 0; i < items; i++) {
+        client* ptr = clients[i];
+        dass::client::PathTMService* service = ptr->get_service();
+        dass::client::PathTMClientConnection* conn = ptr->get_conn();
 
-      if (service != NULL) {
-        service->stop();
-        cout << "Stopping request!" << endl;
-      }
-      dass::client::ClientConnection::StartService(5);
+        if (service != NULL) {
+          service->stop();
+          cout << "Stopping request!" << endl;
+        }
+        dass::client::ClientConnection::StartService(5);
 
-      if (ptr->get_statusof() != NULL) {
-  			ptr->get_statusof()->stop();
-  			cout << "Stopping status service request!" << endl;
-      }
-      dass::client::ClientConnection::StartService (5);
+        if (ptr->get_statusof() != NULL) {
+          ptr->get_statusof()->stop();
+          cout << "Stopping status service request!" << endl;
+        }
+        dass::client::ClientConnection::StartService (5);
 
-      if (conn != NULL && conn->connected()) {
-        conn->disconnect();
-        cout << "Closing connection!" << endl;
-      }
-      dass::client::ClientConnection::StartService(5);
+        if (conn != NULL && conn->connected()) {
+          conn->disconnect();
+          cout << "Closing connection!" << endl;
+        }
+        dass::client::ClientConnection::StartService(5);
 
-      if (ptr != NULL) {
-        delete ptr;
+        if (ptr != NULL) {
+          delete ptr;
+        }
       }
     } catch(...) {
       return 2;
@@ -44,8 +56,13 @@ namespace pt {
     return 0;
   }
 
-  client::client(ini::config& cfg): Util::TimedEvent(0) {
+  client::client(string section, ini::config& cfg): Util::TimedEvent(0) {
     worker = new usoc::client(cfg.get_string("usoc", "address"), cfg.get_int("usoc", "port"));
+
+    spec.setAPID(cfg.get_int(section, "apid"));
+    spec.setVehicleID(cfg.get_int(section, "vehicule"));
+    spec.setPacketType(cfg.get_int(section, "type"));
+    spec.setPrivateHeaderSource(0);
 
     string instance = cfg.get_string("data", "instance");
     string mode = cfg.get_string("data", "mode");

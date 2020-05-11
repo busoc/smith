@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include "scan.h"
+#include "ini.h"
 
 using namespace std;
 

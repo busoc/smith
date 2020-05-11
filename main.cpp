@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
   try {
     ini::config cfg(argv[1]);
 
-    string item = cfg.get_string("type");
+    string item = cfg.get_string("default", "type");
     int code = 0;
     if (item == "pd" || item == "PD") {
       code = pd::run(cfg);

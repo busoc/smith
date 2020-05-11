@@ -22,6 +22,7 @@ namespace ini {
     column = 0;
     length = 0;
     last = 0;
+    value = false;
 
     get();
   }
@@ -50,6 +51,7 @@ namespace ini {
     tok.pos = where(); // {line, column};
 
     switch (last) {
+      case mk::semicolon:
       case mk::pound:
       scan_comment(tok);
       break;

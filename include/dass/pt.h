@@ -26,7 +26,7 @@ namespace pt {
     dass::client::PathTMService* service;
     dass::client::StatusService* status;
   public:
-    client(ini::config& cfg);
+    client(string section, ini::config& cfg);
     virtual ~client();
 
     virtual void receivePathTMData (dass::client::PathTMService& service, dass::PathTM* data);

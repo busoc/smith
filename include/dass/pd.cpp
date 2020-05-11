@@ -123,7 +123,7 @@ namespace pd {
 
     char fine = now.getMilliSeconds();
     memcpy(buffer+written, &fine, sizeof(fine));
-    written += sizeof(fine)
+    written += sizeof(fine);
 
     memcpy(buffer+written, &request, sizeof(request));
     written += sizeof(request);

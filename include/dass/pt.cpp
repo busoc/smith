@@ -1,3 +1,4 @@
+#include "helpers.h"
 #include "pt.h"
 #include "ini/ini.h"
 
@@ -48,7 +49,7 @@ namespace pt {
 
     string instance = cfg.get_string("data", "instance");
     string mode = cfg.get_string("data", "mode");
-    conn = new dass::client::PathTMClientConnection(dassutil::get_mode(mode), dassutil::get_instance(instance))
+    conn = new dass::client::PathTMClientConnection(dassutil::get_mode(mode), dassutil::get_instance(instance));
     conn->addConnectionMonitor(*this);
     conn->setSessionRetrievalTime(30);
 
@@ -61,7 +62,7 @@ namespace pt {
     try {
       conn->connect(cfg.get_string("dass", "address"), cfg.get_int("dass", "port"), 30);
       if (conn->connected()) {
-        conn->startProcessedDataService(*this, spec);
+        conn->startPathTMService(*this, spec);
         Set(Util::CTimeSpan::Second() * 5);
       } else {
         Clear();
@@ -103,14 +104,14 @@ namespace pt {
 
     char fine = now.getMilliSeconds();
     memcpy(buffer+written, &fine, sizeof(fine));
-    written += sizeof(fine)
+    written += sizeof(fine);
 
     memcpy(buffer+written, &request, sizeof(request));
     written += sizeof(request);
 
     written += serialize(buffer+written, data);
 
-    worker->forward(buffer, written)
+    worker->forward(buffer, written);
   }
 
   void client::receivePathTMResponse(dass::client::PathTMService& service, dass::PathTMResponse& response) {

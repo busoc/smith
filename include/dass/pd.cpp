@@ -68,7 +68,7 @@ namespace pd {
 
     string instance = cfg.get_string("data", "instance");
     string mode = cfg.get_string("data", "mode");
-    conn = new dass::client::ProcessedDataClientConnection(dassutil::get_mode(mode), dassutil::get_instance(instance));
+    conn = new dass::client::ProcessedDataClientConnection(dassutil::get_instance(instance), dassutil::mode(mode));
     conn->addConnectionMonitor(*this);
     conn->setSessionRetrievalTime(30);
 
@@ -132,7 +132,8 @@ namespace pd {
     written += sizeof(count);
 
 
-    for (int i = 0; i < count; i++) {
+    int total = data->count();
+    for (int i = 0; i < total; i++) {
       written += serialize(buffer+written, data->getItem(i));
     }
     delete data;

@@ -33,3 +33,5 @@
 
 # excludes DaSS source
 DaSS/*
+
+*.zip

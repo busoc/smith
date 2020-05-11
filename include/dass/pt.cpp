@@ -109,8 +109,9 @@ namespace pt {
     memcpy(buffer+written, &request, sizeof(request));
     written += sizeof(request);
 
-    written += serialize(buffer+written, data);
+    // written += serialize(buffer+written, data);
 
+    delete data;
     worker->forward(buffer, written);
   }
 
